@@ -1,6 +1,5 @@
 name: Test Docker Compose
-env:
-  POSTGRES_PASSWORD: postgress
+
 on:
   push:
     branches:
