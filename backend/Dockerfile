@@ -42,4 +42,12 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 WORKDIR /app/backend/
 
+# Create a non-root user and ensure /app is owned by that user so any
+# runtime-created files (like coverage htmlcov) are written with non-root
+# ownership on the host when using bind mounts.
+RUN groupadd -r app && useradd -r -g app -d /home/app -m -s /bin/bash app \
+    && chown -R app:app /app
+
+USER app
+
 CMD ["fastapi", "run", "--workers", "4", "app/main.py"]
